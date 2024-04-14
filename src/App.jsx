@@ -1,12 +1,14 @@
-import './App.css'
-
+import "./App.css";
+import { Navbar } from "./components/navBar/Navbar";
+import "./layout.scss";
 function App() {
-
   return (
     <>
-     <a href="http://">My World</a>
+      <div className="layout">
+        <Navbar />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
