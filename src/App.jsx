@@ -1,18 +1,20 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import "./layout.scss";
-import { Navbar } from "./components/navBar/Navbar";
 import { HomePage } from "./pages/homepage/HomePage";
+import Layout from "./pages/layout/Layout";
+import ListPage from "./pages/listpage/ListPage";
+import SinglePage from "./pages/singlePage/SinglePage";
+
 function App() {
   return (
     <>
-      <div className="layout">
-        <div className="navbar">
-          <Navbar />
-        </div>
-        <div className="content">
-          <HomePage />
-        </div>
-      </div>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/list" element={<ListPage />} />
+          <Route path="/:id" element={<SinglePage />} />
+        </Route>
+      </Routes>
     </>
   );
 }
