@@ -1,16 +1,19 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-a{
-    text-decoration: none;
-    color: inherit;
+a {
+  text-decoration: none;
+  color: inherit;
 }
-body{
-    font-family: 'Lato', sans-serif ;
-    overflow: hidden;
-    background-color: rgb(121, 115, 125);
+body {
+  font-family: "Lato", sans-serif;
+  overflow: hidden;
+  background-color: rgb(121, 115, 125);
+}
 
+::-webkit-scrollbar {
+  display: none;
 }
