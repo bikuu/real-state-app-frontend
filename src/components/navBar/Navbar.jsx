@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./navbar.scss";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaUser } from "react-icons/fa";
+import { userData } from "./../../lib/dummyData";
+import { Link } from "react-router-dom";
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const user = true;
   return (
     <nav>
       <div className="left">
@@ -16,10 +19,23 @@ export const Navbar = () => {
         <a href="/">Agents</a>
       </div>
       <div className="right">
-        <a href="/">Sign In</a>
-        <a href="/" className="signup">
-          Sign Up
-        </a>
+        {user ? (
+          <div className="user">
+            <FaUser className="imgIcon" />
+            <span>Bibek Lama</span>
+            <Link to="/profile" className="profile">
+              <div className="notification">3</div>
+              <span>Profile</span>
+            </Link>
+          </div>
+        ) : (
+          <>
+            <a href="/">Sign In</a>
+            <a href="/" className="signup">
+              Sign Up
+            </a>
+          </>
+        )}
         <div className="menuIcon" onClick={() => setOpen((prev) => !prev)}>
           <FaBars />
         </div>
