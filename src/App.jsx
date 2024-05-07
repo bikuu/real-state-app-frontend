@@ -5,6 +5,8 @@ import Layout from "./pages/layout/Layout";
 import ListPage from "./pages/listpage/ListPage";
 import SinglePage from "./pages/singlePage/SinglePage";
 import Profile from "./pages/profile/Profile";
+import Login from "./pages/auth/login/Login";
+import Register from "./pages/auth/register/Register";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/list" element={<ListPage />} />
           <Route path="/:id" element={<SinglePage />} />
           <Route path="/profile" element={<Profile />} />
@@ -22,4 +26,3 @@ function App() {
 }
 
 export default App;
- 
