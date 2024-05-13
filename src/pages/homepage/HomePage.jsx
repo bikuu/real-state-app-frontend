@@ -1,7 +1,10 @@
-import React from "react";
+import  { useContext } from "react";
 import "./HomePage.scss";
 import SearchBar from "./../../components/searchBar/SearchBar";
+import { AuthContext } from "../../context/AuthContext";
 export const HomePage = () => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   return (
     <div className="homePage">
       <div className="textContainer">
