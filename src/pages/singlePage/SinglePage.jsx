@@ -1,9 +1,8 @@
-import React from "react";
 import "./singlePage.scss";
 import Slider from "../../components/slider/Slider";
 import Map from "./../../components/map/Map";
-
-import { singlePostData, userData } from "../../lib/dummyData";
+import { useLoaderData } from "react-router-dom";
+import DOMPurify from "dompurify";
 import {
   FaBath,
   FaBed,
@@ -20,27 +19,33 @@ import {
 } from "react-icons/fa";
 
 const SinglePage = () => {
+  const post = useLoaderData();
   return (
     <div className="singlePage">
       <div className="details">
         <div className="wrapper">
-          <Slider images={singlePostData.images} />
+          <Slider images={post.images} />
           <div className="info">
             <div className="top">
               <div className="post">
-                <h1>{singlePostData.title}</h1>
+                <h1>{post.title}</h1>
                 <div className="address">
                   <FaMapMarkerAlt className="imgIcon" />
-                  <span>{singlePostData.address}</span>
+                  <span>{post.address}</span>
                 </div>
-                <div className="price">$ {singlePostData.price}</div>
+                <div className="price">$ {post.price}</div>
               </div>
               <div className="user">
-                <img src={userData.img} alt="" />
-                <span>{userData.name}</span>
+                <img src={post.user.avatar} alt="" />
+                <span>{post.user.username}</span>
               </div>
             </div>
-            <div className="bottom">{singlePostData.description}</div>
+            <div
+              className="bottom"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(post.postDetail.desc),
+              }}
+            ></div>
           </div>
         </div>
       </div>
@@ -49,24 +54,32 @@ const SinglePage = () => {
           <p className="title">General</p>
           <div className="listVertical">
             <div className="feature">
-                <FaTools className="imgIcon" />
+              <FaTools className="imgIcon" />
               <div className="featureText">
                 <span>Utilities</span>
-                <p>Renter is responsible</p>
+                {post.postDetail.utilities === "owner" ? (
+                  <p>Owner is responsible</p>
+                ) : (
+                  <p>Renter is responsible</p>
+                )}
               </div>
             </div>
             <div className="feature">
-                <FaDog className="imgIcon" />
+              <FaDog className="imgIcon" />
               <div className="featureText">
                 <span>Pet Policy</span>
-                <p>Pet Allowed</p>
+                {post.postDetail.pet === "allowed" ? (
+                  <p>Pet Allowed</p>
+                ) : (
+                  <p>Pet Not Allowed</p>
+                )}
               </div>
             </div>
             <div className="feature">
-                <FaDollarSign className="imgIcon" />
+              <FaDollarSign className="imgIcon" />
               <div className="featureText">
-                <span>Property Fees</span>
-                <p>Must have 3x the rent in total household income</p>
+                <span>Income Policy</span>
+                <p>{post.postDetail.income}</p>
               </div>
             </div>
           </div>
@@ -75,44 +88,44 @@ const SinglePage = () => {
           <div className="sizes">
             <div className="size">
               <FaCompress className="imgIcon" />
-              <span>130 sqft</span>
+              <span>{post.postDetail.size} sqft</span>
             </div>
             <div className="size">
               <FaBed className="imgIcon" />
-              <span>3 bed</span>
+              <span>{post.bedroom} bed</span>
             </div>
             <div className="size">
               <FaBath className="imgIcon" />
-              <span>3 bathroom</span>
+              <span>{post.bathroom} bathroom</span>
             </div>
           </div>
           <p className="title">Nearby Places</p>
           <div className="listHorizontal">
             <div className="feature">
-                <FaSchool className="imgIcon" />
+              <FaSchool className="imgIcon" />
               <div className="featureText">
                 <span>School</span>
-                <p>200m away</p>
+                <p>{post.postDetail.school}m away</p>
               </div>
             </div>
             <div className="feature">
               <FaBus className="imgIcon" />
               <div className="featureText">
                 <span>Bus Stop</span>
-                <p>100m away</p>
+                <p>{post.postDetail.bus}m away</p>
               </div>
             </div>
             <div className="feature">
-                <FaHamburger className="imgIcon" />
+              <FaHamburger className="imgIcon" />
               <div className="featureText">
                 <span>Restaurant</span>
-                <p>50m away</p>
+                <p>{post.postDetail.restaurant}m away</p>
               </div>
             </div>
           </div>
           <p className="tittle">Location</p>
           <div className="mapContainer">
-            <Map items={[singlePostData]} />
+            <Map items={[post]} />
           </div>
           <div className="buttons">
             <button>

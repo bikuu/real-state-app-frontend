@@ -1,4 +1,9 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import "./App.css";
 import { useContext } from "react";
 import { HomePage } from "./pages/homepage/HomePage";
@@ -10,34 +15,37 @@ import UpdateProfile from "./pages/updateProfile/UpdateProfile";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import { AuthContext } from "./context/AuthContext";
+import NewPost from "./pages/newPost/NewPost";
+import { singlePageLoader } from "./lib/loader";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-  return (
-    <>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route
-            path="/login"
-            element={!currentUser ? <Login /> : <HomePage />}
-          />
-          <Route
-            path="/register"
-            element={!currentUser ? <Register /> : <HomePage />}
-          />
-          <Route path="/list" element={<ListPage />} />
-          <Route path="/:id" element={<SinglePage />} />
-          {currentUser && (
-            <>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/profile/update" element={<UpdateProfile />} />
-            </>
-          )}
-        </Route>
-      </Routes>
-    </>
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route element={<Layout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/login"
+          element={!currentUser ? <Login /> : <HomePage />}
+        />
+        <Route
+          path="/register"
+          element={!currentUser ? <Register /> : <HomePage />}
+        />
+        <Route path="/list" element={<ListPage />} />
+        <Route path="/:id" element={<SinglePage />} loader={singlePageLoader} />
+        {currentUser && (
+          <>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/update" element={<UpdateProfile />} />
+            <Route path="/add" element={<NewPost />} />
+          </>
+        )}
+      </Route>
+    )
   );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
