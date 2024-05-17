@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./searchBar.scss";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const types = ["buy", "rent"];
 const SearchBar = () => {
@@ -12,6 +13,9 @@ const SearchBar = () => {
   });
   const switchType = (value) => {
     setQuery((prev) => ({ ...prev, type: value }));
+  };
+  const handleChange = (e) => {
+    setQuery((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   return (
     <div className="searchBar">
@@ -29,13 +33,19 @@ const SearchBar = () => {
         ))}
       </div>
       <form action="">
-        <input type="text" name="location" placeholder="City Location" />
+        <input
+          type="text"
+          name="city"
+          placeholder="City"
+          onChange={handleChange}
+        />
         <input
           type="number"
           name="minPrice"
           min={0}
           max={10000000}
           placeholder="Min Price"
+          onChange={handleChange}
         />
         <input
           type="number"
@@ -43,10 +53,15 @@ const SearchBar = () => {
           min={0}
           max={10000000}
           placeholder="Max Price"
+          onChange={handleChange}
         />
-        <button>
-          <FaSearch className="searchIcon" />
-        </button>
+        <Link
+          to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice} `}
+        >
+          <button>
+            <FaSearch className="searchIcon" />
+          </button>
+        </Link>
       </form>
     </div>
   );

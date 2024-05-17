@@ -62,20 +62,28 @@
         }
       }
     }
-    button {
-      border: none;
-      cursor: pointer;
-      background-color: rgb(128, 139, 189);
+    a {
       flex: 1;
-      @include sm {
-        padding: 15px;
+      background-color: rgb(128, 139, 189);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      button {
+        border: none;
+        cursor: pointer;
+        @include sm {
+          padding: 15px;
+        }
+        .searchIcon {
+          width: 30px;
+          height: 30px;
+          background-color: rgb(128, 139, 189);
+          color: aliceblue;
+
+          padding: 0 5px;
+        }
       }
-    }
-    .searchIcon {
-      width: 30px;
-      height: 30px;
-      color: rgb(240, 223, 223);
-      padding: 0 5px;
     }
   }
 }

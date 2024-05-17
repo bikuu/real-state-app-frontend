@@ -16,7 +16,7 @@ import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import { AuthContext } from "./context/AuthContext";
 import NewPost from "./pages/newPost/NewPost";
-import { singlePageLoader } from "./lib/loader";
+import { listLoader, singlePageLoader } from "./lib/loader";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -33,7 +33,7 @@ function App() {
           path="/register"
           element={!currentUser ? <Register /> : <HomePage />}
         />
-        <Route path="/list" element={<ListPage />} />
+        <Route path="/list" element={<ListPage />} loader={listLoader} />
         <Route path="/:id" element={<SinglePage />} loader={singlePageLoader} />
         {currentUser && (
           <>
