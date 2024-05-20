@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React, { Suspense, useContext } from "react";
 import "./profilePage.scss";
 import { FaUser } from "react-icons/fa";
 import List from "../../components/list/List";
 import Chat from "../../components/chat/Chat";
 import { apiRequest } from "./../../lib/apiRequest";
-import { Link, useNavigate } from "react-router-dom";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
 import { AuthContext } from "./../../context/AuthContext";
 const Profile = () => {
   const navigate = useNavigate();
   const { currentUser, updateUser } = useContext(AuthContext);
-
+  const data = useLoaderData();
   const handleLogout = async () => {
     try {
       await apiRequest.post("/auth/logout");
@@ -52,16 +52,37 @@ const Profile = () => {
               <button>Create New Post</button>
             </Link>
           </div>
-          <List />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(postResponse) => <List items={postResponse.data.userPosts} />}
+            </Await>
+          </Suspense>
           <div className="title">
             <h1>Saved List</h1>
           </div>
-          <List />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(postResponse) => <List items={postResponse.data.savedPosts} />}
+            </Await>
+          </Suspense>{" "}
         </div>
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Chat />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.chatResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(chatResponse) => <Chat chats={chatResponse.data} />}
+            </Await>
+          </Suspense>
         </div>
       </div>
     </div>

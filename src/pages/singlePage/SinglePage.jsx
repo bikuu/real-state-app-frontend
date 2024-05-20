@@ -1,7 +1,7 @@
 import "./singlePage.scss";
 import Slider from "../../components/slider/Slider";
 import Map from "./../../components/map/Map";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import DOMPurify from "dompurify";
 import {
   FaBath,
@@ -17,9 +17,28 @@ import {
   FaSchool,
   FaTools,
 } from "react-icons/fa";
+import { useContext, useState } from "react";
+import { AuthContext } from "./../../context/AuthContext";
+import { apiRequest } from "./../../lib/apiRequest";
 
 const SinglePage = () => {
+  const { currentUser } = useContext(AuthContext);
   const post = useLoaderData();
+  const [saved, setSaved] = useState(post.isSaved);
+  const handleSave = async () => {
+    if (!currentUser) {
+      redirect("/login");
+    }
+    try {
+      await apiRequest.post("/users/save", {
+        postId: post.id,
+      });
+      setSaved((prev) => !prev);
+    } catch (error) {
+      console.log(error);
+      setSaved((prev) => !prev);
+    }
+  };
   return (
     <div className="singlePage">
       <div className="details">
@@ -131,8 +150,9 @@ const SinglePage = () => {
             <button>
               <FaCommentDots className="imgIcon" /> Send a message
             </button>
-            <button>
-              <FaRegBookmark className="imgIcon" /> Save a place
+            <button onClick={handleSave}>
+              <FaRegBookmark className="imgIcon" />{" "}
+              {saved ? "Place saved" : "Save a place"}
             </button>
           </div>
         </div>
