@@ -6,14 +6,20 @@ import { AuthContext } from "../../context/AuthContext";
 import { apiRequest } from "../../lib/apiRequest";
 import { SocketContext } from "../../context/SocketContext";
 import { useEffect } from "react";
+import { useNotificationStore } from "../../lib/notifications";
 const Chat = ({ chats }) => {
   const [chat, setChat] = useState(null);
   const { currentUser } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
   const messageEndRef = useRef();
+  const decrease = useNotificationStore((state) => state.decrease);
+
   const handleOpenChat = async (id, receiver) => {
     try {
       const res = await apiRequest("/chats/" + id);
+      if (!res.data.seenBy.includes(currentUser.id)) {
+        decrease();
+      }
       setChat({ ...res.data, receiver });
     } catch (error) {
       console.log(error);
